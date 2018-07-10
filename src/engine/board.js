@@ -1,6 +1,7 @@
 import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
+import King from './pieces/king'
 
 export default class Board {
     constructor(currentPlayer) {
@@ -49,6 +50,8 @@ export default class Board {
     }
 
     isCapturable(square, player) {
-        return this.isSquareFree(square) ? false : this.getPiece(square).player !== player;
+        return this.isSquareFree(square)
+            ? false
+            : (this.getPiece(square).player !== player && !(this.getPiece(square) instanceof King));
     }
 }
