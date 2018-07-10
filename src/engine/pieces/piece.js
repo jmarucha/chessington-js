@@ -6,7 +6,7 @@ export default class Piece {
         this.hasMoved = false;
     }
 
-    getAvailableMoves(board) {
+    getAvailableMoves(board) { // eslint-disable-line no-unused-vars
         throw new Error('This method must be implemented, and return a list of available moves');
     }
 
