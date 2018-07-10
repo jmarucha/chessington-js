@@ -60,3 +60,6 @@ typings/
 # Babel build Output
 dist/
 
+#IntlliJ stuff
+.idea
+*.iml

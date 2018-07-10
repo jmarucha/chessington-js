@@ -13,12 +13,14 @@ export default class Pawn extends Piece {
         let moves = [];
         
         let dir = (this.player === Player.WHITE) ? 1 : -1;
-
-        if (!this.hasMoved) {
-            moves.push(Square.at(square.row + 2*dir, square.col));
+        let squareInFront = Square.at(square.row + dir, square.col);
+        if(typeof board.getPiece(squareInFront) === "undefined") {
+            moves.push(Square.at(square.row + dir, square.col));
+            let square2InFront = Square.at(squareInFront.row + dir, squareInFront.col);
+            if (!this.hasMoved && typeof board.getPiece(square2InFront) === "undefined") {
+                moves.push(Square.at(square.row + 2*dir, square.col));
+            }
         }
-        moves.push(Square.at(square.row + dir, square.col));
-
         return moves;
     }
 }
