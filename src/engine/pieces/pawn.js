@@ -1,7 +1,6 @@
 import Piece from './piece';
 import Player from '../player';
 import Square from '../square';
-import GameSettings from '../gameSettings';
 
 export default class Pawn extends Piece {
     constructor(player) {
@@ -10,17 +9,17 @@ export default class Pawn extends Piece {
 
     getAvailableMoves(board) {
         let square = board.findPiece(this);
-        let moves = [];
-        
         let dir = (this.player === Player.WHITE) ? 1 : -1;
+
+        let moves = [];
         let squareInFront = Square.at(square.row + dir, square.col);
-        if(typeof board.getPiece(squareInFront) === "undefined") {
+        if (board.isSquareFree(squareInFront)) {
             moves.push(Square.at(square.row + dir, square.col));
             let square2InFront = Square.at(squareInFront.row + dir, squareInFront.col);
-            if (!this.hasMoved && typeof board.getPiece(square2InFront) === "undefined") {
-                moves.push(Square.at(square.row + 2*dir, square.col));
+            if (!this.hasMoved && board.isSquareFree(square2InFront)) {
+                moves.push(Square.at(square2InFront.row, square2InFront.col));
             }
         }
-        return moves;
+        return moves.filter(sq => sq.isOnBoard());
     }
 }

@@ -45,7 +45,7 @@ export default class Board {
     }
 
     isSquareFree(square) {
-        return typeof this.board[square.row][square.col] === "undefined";
+        return square.isOnBoard() && typeof this.board[square.row][square.col] === "undefined";
     }
 
     isCapturable(square, player) {
