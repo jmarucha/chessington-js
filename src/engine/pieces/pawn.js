@@ -12,19 +12,12 @@ export default class Pawn extends Piece {
         let square = board.findPiece(this);
         let moves = [];
         
+        let dir = (this.player === Player.WHITE) ? 1 : -1;
 
-        if (this.player === Player.WHITE) {
-            if (square.row === 1) {
-                moves.push(Square.at(square.row + 2, square.col));
-            }
-            moves.push(Square.at(square.row + 1, square.col));
+        if (!this.hasMoved) {
+            moves.push(Square.at(square.row + 2*dir, square.col));
         }
-        if (this.player === Player.BLACK) {
-            if (square.row === GameSettings.BOARD_SIZE-2) {
-                moves.push(Square.at(square.row - 2, square.col));
-            }
-            moves.push(Square.at(square.row - 1, square.col));
-        }
+        moves.push(Square.at(square.row + dir, square.col));
 
         return moves;
     }
