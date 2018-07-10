@@ -2,6 +2,7 @@ const path = require('path');
 
 const config = {
     entry: './dist/frontend/js/chessington.js',
+    devtool: 'source-map',
     output: {
         filename: 'chessington.bundle.js',
         path: path.join(__dirname, 'dist', 'frontend', 'js'),

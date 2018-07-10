@@ -65,4 +65,23 @@ export default class Board {
             }
         }
     }
+    isAttacked(square, player) {
+        let pieces = [];
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                let currentPiece = this.board[row][col];
+                if (currentPiece && currentPiece.player !== player && !(currentPiece instanceof King)) {
+                    pieces.push(currentPiece);
+                }
+            }
+        }
+        for (let piece of pieces) {
+            for (let attackedSquare of piece.getAttackableSquares(this)) {
+                if (square.equals(attackedSquare)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

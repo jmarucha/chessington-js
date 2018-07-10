@@ -58,4 +58,9 @@ export default class Pawn extends Piece {
             board.setPiece(square, undefined);
         }
     }
+
+    getAttackableSquares(board) {
+        let square = board.findPiece(this);
+        return [-1, 1].map(dCol => Square.at(square.row + this.dir, square.col + dCol));
+    }
 }

@@ -45,4 +45,8 @@ export default class Piece {
     getDiagonalMoves(board) {
         return this.getMovesInDirections([[1, 1], [-1, 1], [1, -1], [-1, -1]], board);
     }
+
+    getAttackableSquares(board) {
+        return this.getAvailableMoves(board);
+    }
 }
