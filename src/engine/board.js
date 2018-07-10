@@ -50,8 +50,8 @@ export default class Board {
     }
 
     isCapturable(square, player) {
-        return this.isSquareFree(square)
+        return square.isOnBoard() && (this.isSquareFree(square)
             ? false
-            : (this.getPiece(square).player !== player && !(this.getPiece(square) instanceof King));
+            : (this.getPiece(square).player !== player && !(this.getPiece(square) instanceof King)));
     }
 }

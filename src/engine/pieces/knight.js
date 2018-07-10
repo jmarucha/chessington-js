@@ -10,9 +10,9 @@ export default class Knight extends Piece {
         let square = board.findPiece(this);
         let movesDeltas =
             [[2,1],[2,-1],[-2,1],[-2,-1],
-            [1,2],[-1,2],[1,-2],[-1,-2]]
+            [1,2],[-1,2],[1,-2],[-1,-2]];
         return movesDeltas
             .map(d => Square.at(square.row+d[0], square.col+d[1]))
-            .filter(sq => sq.isOnBoard());
+            .filter(sq => board.isSquareFree(sq) || board.isCapturable(sq, this.player));
     }
 }

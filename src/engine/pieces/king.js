@@ -13,6 +13,6 @@ export default class King extends Piece {
             [0,-1],[-1,-1],[-1,0],[-1,1]];
         return movesDeltas
             .map(d => Square.at(square.row+d[0], square.col+d[1]))
-            .filter(sq => sq.isOnBoard());
+            .filter(sq => board.isSquareFree(sq) || board.isCapturable(sq, this.player));
     }
 }
