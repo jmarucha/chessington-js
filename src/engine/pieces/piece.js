@@ -14,6 +14,8 @@ export default class Piece {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
         this.hasMoved = true;
+
+        board.clearEnPassantFlags(this.player)
     }
 
     getMovesInDirections(dirs, board) {

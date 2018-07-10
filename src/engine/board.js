@@ -54,4 +54,15 @@ export default class Board {
             ? false
             : (this.getPiece(square).player !== player && !(this.getPiece(square) instanceof King)));
     }
+
+    clearEnPassantFlags(player) {
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                let fig = this.board[row][col];
+                if (fig && fig.enPassant && fig.player === player) {
+                    fig.enPassant = false;
+                }
+            }
+        }
+    }
 }
