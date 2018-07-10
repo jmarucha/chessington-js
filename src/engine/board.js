@@ -43,4 +43,12 @@ export default class Board {
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
         }
     }
+
+    isSquareFree(square) {
+        return typeof this.board[square.row][square.col] === "undefined";
+    }
+
+    isCapturable(square, player) {
+        return this.isSquareFree(square) ? false : this.getPiece(square).player !== player;
+    }
 }
