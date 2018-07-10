@@ -41,6 +41,7 @@ export default class Pawn extends Piece {
     moveTo(board, newSquare) {
         const currentSquare = board.findPiece(this);
 
+        this.enPassant = false;
         if (newSquare.row - currentSquare.row === 2*this.dir) {
             this.enPassant = true;
         }
