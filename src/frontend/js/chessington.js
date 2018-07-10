@@ -12,6 +12,7 @@ import King from '../../engine/pieces/king';
 let boardUI;
 let board;
 
+
 function squareToPositionString(square) {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     return letters[square.col] + (square.row + 1).toString();
@@ -70,8 +71,8 @@ function onDrop(source, target) {
     }
     pieceToMove.moveTo(board, toSquare);
     updateStatus();
+    boardUI.position(boardToPositionObject(board))
 }
-
 function updateStatus() {
     const player = board.currentPlayer === Player.WHITE ? 'White' : 'Black';
     document.getElementById('turn-status').innerHTML = `${player} to move`;
