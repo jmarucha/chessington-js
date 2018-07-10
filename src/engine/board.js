@@ -84,4 +84,18 @@ export default class Board {
         }
         return false;
     }
+    findKing(player) {
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {
+                if (this.board[row][col] instanceof King && this.board[row][col].player === player) {
+                    return Square.at(row, col);
+                }
+            }
+        }
+
+    }
+    checkCheck(player) {
+        let location = this.findKing(player);
+        return this.isAttacked(location, player);
+    }
 }
