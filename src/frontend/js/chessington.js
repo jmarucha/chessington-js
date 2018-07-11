@@ -75,20 +75,21 @@ function onDrop(source, target) {
     }
     pieceToMove.moveTo(board, toSquare);
 
+    let pawnToPromote = board.getPawnToPromote();
+    if (pawnToPromote) {
+        promoteUI(pawnToPromote.player, (piece) => {
+            board.promote(pawnToPromote, piece);
+            boardUI.position(boardToPositionObject(board));
+            updateStatus()
+        });
+    }
+
     updateStatus();
     boardUI.position(boardToPositionObject(board));
 }
 
 function updateStatus() {
     const player = board.currentPlayer === Player.WHITE ? 'White' : 'Black';
-
-    let pawnToPromote = board.getPawnToPromote();
-    if (pawnToPromote) {
-        promoteUI(pawnToPromote.player, (piece) => {
-            board.promote(pawnToPromote, piece);
-            boardUI.position(boardToPositionObject(board));
-        });
-    }
 
     document.getElementById('turn-status').innerHTML = `${player} to move`;
     document.getElementById('check').innerHTML =
