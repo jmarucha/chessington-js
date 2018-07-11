@@ -66,16 +66,21 @@ export default class Board {
         }
     }
 
-    isAttacked(square, player) {
+    findAllPieces() {
         let pieces = [];
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
                 let currentPiece = this.board[row][col];
-                if (currentPiece && currentPiece.player !== player) {
+                if (!!currentPiece) {
                     pieces.push(currentPiece);
                 }
             }
         }
+        return pieces;
+    }
+
+    isAttacked(square, player) {
+        let pieces = this.findAllPieces().filter(piece => piece.player !== player);
         for (let piece of pieces) {
             for (let attackedSquare of piece.getAttackableSquares(this)) {
                 if (square.equals(attackedSquare)) {
@@ -97,17 +102,17 @@ export default class Board {
 
     }
 
-    checkCheck(player) {
-        let location = this.findKing(player);
+    checkCheck() {
+        let location = this.findKing(this.currentPlayer);
         let king = this.getPiece(location);
         this.setPiece(location, undefined);
-        let check = this.isAttacked(location, player);
+        let check = this.isAttacked(location, this.currentPlayer);
         this.setPiece(location, king);
         return check;
     }
 
-    checkMoveAvoidsCheck(player, fromSquare, toSquare) {
-        if (!this.checkCheck(player)) {
+    checkMoveAvoidsCheck(fromSquare, toSquare) {
+        if (!this.checkCheck()) {
             return true;
         }
         let wasOnToSquare = this.getPiece(toSquare);
@@ -115,10 +120,26 @@ export default class Board {
         this.setPiece(toSquare, wasOnFromSquare);
         this.setPiece(fromSquare, undefined);
 
-        let checkPersists = this.checkCheck(player);
+        let checkPersists = this.checkCheck();
         this.setPiece(fromSquare, wasOnFromSquare);
         this.setPiece(toSquare, wasOnToSquare);
 
         return !checkPersists;
+    }
+
+    canMakeMove() {
+        let pieces = this.findAllPieces().filter(piece => piece.player === this.currentPlayer);
+        for(let piece of pieces) {
+            let moves = piece.getAvailableMoves(this);
+            for(let move of moves) {
+                if(this.checkMoveAvoidsCheck(this.findPiece(piece), move))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    checkCheckmate() {
+        return this.checkCheck() && !this.canMakeMove();
     }
 }

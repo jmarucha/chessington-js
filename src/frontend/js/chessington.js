@@ -68,7 +68,7 @@ function onDrop(source, target) {
 
     if (!pieceToMove
         || !pieceToMove.getAvailableMoves(board).some(square => square.equals(toSquare))
-        || !board.checkMoveAvoidsCheck(pieceToMove.player, fromSquare, toSquare)) {
+        || !board.checkMoveAvoidsCheck(fromSquare, toSquare)) {
         boardUI.position(boardToPositionObject(board));
         return 'snapback';
     }
@@ -81,6 +81,7 @@ function updateStatus() {
     const player = board.currentPlayer === Player.WHITE ? 'White' : 'Black';
     document.getElementById('turn-status').innerHTML = `${player} to move`;
     document.getElementById('check').innerHTML = board.checkCheck(board.currentPlayer) ? "CHECK" : "";
+    document.getElementById('canMove').innerHTML = board.canMakeMove(board.currentPlayer) ? "" : "NO MOVES";
 }
 
 function boardInStartingPosition() {
