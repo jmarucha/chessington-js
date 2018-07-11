@@ -129,10 +129,10 @@ export default class Board {
 
     canMakeMove() {
         let pieces = this.findAllPieces().filter(piece => piece.player === this.currentPlayer);
-        for(let piece of pieces) {
+        for (let piece of pieces) {
             let moves = piece.getAvailableMoves(this);
-            for(let move of moves) {
-                if(this.checkMoveAvoidsCheck(this.findPiece(piece), move))
+            for (let move of moves) {
+                if (this.checkMoveAvoidsCheck(this.findPiece(piece), move))
                     return true;
             }
         }
@@ -141,5 +141,9 @@ export default class Board {
 
     checkCheckmate() {
         return this.checkCheck() && !this.canMakeMove();
+    }
+
+    checkStalemate() {
+        return !this.checkCheck() && !this.canMakeMove();
     }
 }
