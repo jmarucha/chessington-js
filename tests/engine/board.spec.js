@@ -49,7 +49,7 @@ describe('Board', () => {
             board = new Board(Player.WHITE);
         });
 
-        it('is can be identified correctly for queen check', () => {
+        it('is identified correctly for queen check', () => {
             const blackKing = new King(Player.BLACK);
             const whiteKing = new King(Player.WHITE);
             const blackQueen = new Queen(Player.BLACK)
@@ -61,7 +61,7 @@ describe('Board', () => {
             board.checkCheckmate().should.eql(true)
         });
 
-        it('is should not be confused with stalemate', () => {
+        it('should not be confused with stalemate', () => {
             const blackKing = new King(Player.BLACK);
             const whiteKing = new King(Player.WHITE);
             const blackQueen = new Rook(Player.BLACK)
