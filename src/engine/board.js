@@ -115,12 +115,29 @@ export default class Board {
     checkMoveAvoidsCheck(fromSquare, toSquare) {
         let wasOnToSquare = this.getPiece(toSquare);
         let wasOnFromSquare = this.getPiece(fromSquare);
+
+        let enPassant = wasOnFromSquare instanceof Pawn
+            && !wasOnToSquare
+            && fromSquare.col !== toSquare.col;
+        let enPassantSquare;
+
         this.setPiece(toSquare, wasOnFromSquare);
         this.setPiece(fromSquare, undefined);
+        if (enPassant) {
+            enPassantSquare = Square.at(toSquare.row + wasOnFromSquare.dir, fromSquare.col);
+            wasOnToSquare = this.getPiece(enPassantSquare);
+            this.setPiece(enPassantSquare, undefined);
+            console.log(enPassantSquare);
+        }
 
         let checkPersists = this.checkCheck();
         this.setPiece(fromSquare, wasOnFromSquare);
-        this.setPiece(toSquare, wasOnToSquare);
+        if (!enPassant) {
+            this.setPiece(toSquare, wasOnToSquare);
+        } else {
+            this.setPiece(toSquare, undefined);
+            this.setPiece(enPassantSquare, wasOnToSquare);
+        }
 
         return !checkPersists;
     }
@@ -152,9 +169,12 @@ export default class Board {
                 return row === 0 || row === GameSettings.BOARD_SIZE - 1;
             });
         switch (promotablePawns.length) {
-            case 0: return undefined;
-            case 1: return promotablePawns[0];
-            default: throw new Error("What have you done?");
+            case 0:
+                return undefined;
+            case 1:
+                return promotablePawns[0];
+            default:
+                throw new Error("What have you done?");
         }
 
     }
