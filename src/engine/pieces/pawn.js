@@ -40,12 +40,7 @@ export default class Pawn extends Piece {
 
     moveTo(board, newSquare) {
         const currentSquare = board.findPiece(this);
-
-        this.enPassant = false;
-        if (newSquare.row - currentSquare.row === 2*this.dir) {
-            this.enPassant = true;
-        }
-
+        this.enPassant = newSquare.row - currentSquare.row === 2 * this.dir;
         this.clearEnPassantPawn(board, newSquare);
         
         super.moveTo(board, newSquare);
@@ -53,7 +48,7 @@ export default class Pawn extends Piece {
 
     clearEnPassantPawn(board, newSquare) {
         let square = Square.at(newSquare.row - this.dir, newSquare.col);
-        let piece = board.getPiece(square)
+        let piece = board.getPiece(square);
         if (piece && piece.enPassant && this.player !== piece.player) {
             board.setPiece(square, undefined);
         }

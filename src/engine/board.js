@@ -2,6 +2,7 @@ import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
 import King from './pieces/king'
+import Pawn from "./pieces/pawn";
 
 export default class Board {
     constructor(currentPlayer) {
@@ -145,5 +146,25 @@ export default class Board {
 
     checkStalemate() {
         return !this.checkCheck() && !this.canMakeMove();
+    }
+
+    getPawnToPromote() {
+        let promotablePawns = this.findAllPieces().filter(piece => piece instanceof Pawn)
+            .filter(piece => {
+                let row = this.findPiece(piece).row;
+                return row === 0 || row === GameSettings.BOARD_SIZE - 1;
+            });
+        switch (promotablePawns.length) {
+            case 0: return undefined;
+            case 1: return promotablePawns[0];
+            default: throw "What have you done?";
+        }
+
+    }
+
+    promote(pawn, newPiece) {
+        newPiece.hasMoved = true;
+        newPiece.player = pawn.player;
+        this.setPiece(this.findPiece(pawn), newPiece);
     }
 }
