@@ -113,9 +113,6 @@ export default class Board {
     }
 
     checkMoveAvoidsCheck(fromSquare, toSquare) {
-        if (!this.checkCheck()) {
-            return true;
-        }
         let wasOnToSquare = this.getPiece(toSquare);
         let wasOnFromSquare = this.getPiece(fromSquare);
         this.setPiece(toSquare, wasOnFromSquare);
