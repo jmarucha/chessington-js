@@ -73,4 +73,36 @@ describe('Board', () => {
             board.checkCheckmate().should.eql(false)
         });
     });
+
+    describe('stalemate', () => {
+
+        let board;
+        beforeEach(() => {
+            board = new Board(Player.WHITE);
+        });
+
+        it('is identified properly', () => {
+            const blackKing = new King(Player.BLACK);
+            const whiteKing = new King(Player.WHITE);
+            const blackQueen = new Rook(Player.BLACK)
+
+            board.setPiece(Square.at(1,1), blackQueen);
+            board.setPiece(Square.at(2,2), blackKing);
+            board.setPiece(Square.at(0,0), whiteKing);
+
+            board.checkStalemate().should.eql(true)
+        });
+
+        it('should not be confused with checkmate', () => {
+            const blackKing = new King(Player.BLACK);
+            const whiteKing = new King(Player.WHITE);
+            const blackQueen = new Queen(Player.BLACK)
+
+            board.setPiece(Square.at(1,1), blackQueen);
+            board.setPiece(Square.at(2,2), blackKing);
+            board.setPiece(Square.at(0,0), whiteKing);
+
+            board.checkStalemate().should.eql(false)
+        });
+    });
 });
