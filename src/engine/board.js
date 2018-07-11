@@ -157,7 +157,7 @@ export default class Board {
         switch (promotablePawns.length) {
             case 0: return undefined;
             case 1: return promotablePawns[0];
-            default: throw "What have you done?";
+            default: throw new Error("What have you done?");
         }
 
     }
