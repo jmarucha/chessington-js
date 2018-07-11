@@ -37,7 +37,7 @@ export default class Board {
     }
 
     movePiece(fromSquare, toSquare) {
-        const movingPiece = this.getPiece(fromSquare);        
+        const movingPiece = this.getPiece(fromSquare);
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
@@ -65,6 +65,7 @@ export default class Board {
             }
         }
     }
+
     isAttacked(square, player) {
         let pieces = [];
         for (let row = 0; row < this.board.length; row++) {
@@ -84,6 +85,7 @@ export default class Board {
         }
         return false;
     }
+
     findKing(player) {
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
@@ -94,8 +96,29 @@ export default class Board {
         }
 
     }
+
     checkCheck(player) {
         let location = this.findKing(player);
-        return this.isAttacked(location, player);
+        let king = this.getPiece(location);
+        this.setPiece(location, undefined);
+        let check = this.isAttacked(location, player);
+        this.setPiece(location, king);
+        return check;
+    }
+
+    checkMoveAvoidsCheck(player, fromSquare, toSquare) {
+        if (!this.checkCheck(player)) {
+            return true;
+        }
+        let wasOnToSquare = this.getPiece(toSquare);
+        let wasOnFromSquare = this.getPiece(fromSquare);
+        this.setPiece(toSquare, wasOnFromSquare);
+        this.setPiece(fromSquare, undefined);
+
+        let checkPersists = this.checkCheck(player);
+        this.setPiece(fromSquare, wasOnFromSquare);
+        this.setPiece(toSquare, wasOnToSquare);
+
+        return !checkPersists;
     }
 }
